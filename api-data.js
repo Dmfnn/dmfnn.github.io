@@ -1,6 +1,3 @@
-// API Documentation Data
-// Добавляйте новые API классы в этот массив
-
 const API_DOCS = [
     {
         name: "FileApi",
@@ -188,7 +185,7 @@ files.forEach(file => console.log(file));`
             {
                 name: "getAbsolutePath",
                 signature: "String getAbsolutePath(String relative)",
-                description: "Converts a relative path to an absolute HOS internal storage path.",
+                description: "Converts a relative path to an absolute HOS internal storage path. Can be used in HTML5 media players, which require absolute path to media file.",
                 parameters: [
                     {
                         name: "relative",
@@ -202,7 +199,7 @@ files.forEach(file => console.log(file));`
                 },
                 permissions: [],
                 example: `const absPath = FileApi.getAbsolutePath("/data/apps");
-// Returns: /storage/emulated/0/HOS/data/apps`
+// Returns: /data/user/0/com.dmfnn.htmlos/files/HOS/data/apps`
             }
         ]
     },
