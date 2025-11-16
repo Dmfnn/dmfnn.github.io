@@ -55,7 +55,7 @@ if (base64 !== "FAIL") {
             {
                 name: "writefile",
                 signature: "String writefile(String text, String path)",
-                description: "Writes text content to a file at the specified path. File must already exist.",
+                description: "Writes text content to a file at the specified path.",
                 parameters: [
                     {
                         name: "text",
@@ -185,7 +185,7 @@ files.forEach(file => console.log(file));`
             {
                 name: "getAbsolutePath",
                 signature: "String getAbsolutePath(String relative)",
-                description: "Converts a relative path to an absolute HOS internal storage path.",
+                description: "Converts a relative path to an absolute HOS internal storage path. Can be used in HTML5 media players.",
                 parameters: [
                     {
                         name: "relative",
@@ -199,7 +199,7 @@ files.forEach(file => console.log(file));`
                 },
                 permissions: [],
                 example: `const absPath = FileApi.getAbsolutePath("/data/apps");
-// Returns: /storage/emulated/0/HOS/data/apps`
+// Returns: /data/user/0/com.dmfnn.htmlos/files/HOS/data/apps`
             }
         ]
     },
