@@ -1,6 +1,3 @@
-// API Documentation Renderer
-// This script handles the rendering and interactivity of the API documentation
-
 class ApiDocsRenderer {
     constructor() {
         this.apiList = document.getElementById('apiList');
@@ -51,7 +48,6 @@ class ApiDocsRenderer {
         }
     }
     
-    // Setup search functionality
     setupSearch() {
         this.searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
@@ -251,7 +247,7 @@ class ApiDocsRenderer {
     }
 }
 
-// Initialize the documentation renderer when DOM is ready
+
 document.addEventListener('DOMContentLoaded', () => {
     new ApiDocsRenderer();
 });
