@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOS API Documentation</title>
+    <title>HOS Documentation Portal</title>
     <style>
         * {
             margin: 0;
@@ -42,18 +42,46 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .header h1 {
+        .header-content h1 {
             font-size: 1.75rem;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
 
-        .header p {
+        .header-content p {
             opacity: 0.9;
             margin-top: 0.25rem;
             font-size: 0.9rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: var(--primary);
         }
 
         /* Container */
@@ -74,6 +102,11 @@
             top: 80px;
             height: calc(100vh - 80px);
             overflow-y: auto;
+            display: none;
+        }
+
+        .sidebar.visible {
+            display: block;
         }
 
         .sidebar h2 {
@@ -121,23 +154,161 @@
             overflow-y: auto;
         }
 
-        .welcome-screen {
-            text-align: center;
-            padding: 4rem 2rem;
+        /* Home Page */
+        .home-page {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .welcome-screen h2 {
-            font-size: 2rem;
-            color: var(--on-surface);
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
+            font-weight: 600;
         }
 
-        .welcome-screen p {
-            color: var(--on-surface-variant);
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .screenshot-section {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .screenshot-section h2 {
+            font-size: 1.5rem;
+            color: var(--on-surface);
+            margin-bottom: 1.5rem;
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .features-section {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .features-section h2 {
+            font-size: 1.5rem;
+            color: var(--on-surface);
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            background: var(--surface-variant);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-card h3 {
             font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--on-surface-variant);
+            font-size: 0.95rem;
+        }
+
+        .actions-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .action-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-card p {
+            color: var(--on-surface-variant);
+            margin-bottom: 1.5rem;
+        }
+
+        .action-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-dark);
         }
 
         /* API Documentation Page */
+        .api-doc-page {
+            display: none;
+        }
+
+        .api-doc-page.active {
+            display: block;
+        }
+
         .api-doc {
             display: none;
             animation: fadeIn 0.3s;
@@ -176,6 +347,7 @@
             display: flex;
             gap: 1.5rem;
             font-size: 0.875rem;
+            flex-wrap: wrap;
         }
 
         .meta-item {
@@ -311,11 +483,6 @@
             color: white;
         }
 
-        .badge-async {
-            background: var(--success);
-            color: white;
-        }
-
         /* Search */
         .search-box {
             margin-bottom: 1.5rem;
@@ -334,6 +501,70 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Guide Page */
+        .guide-page {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .guide-page.active {
+            display: block !important;
+        }
+
+        .guide-section {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .guide-section h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .guide-section h3 {
+            font-size: 1.3rem;
+            color: var(--on-surface);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .guide-section p {
+            color: var(--on-surface-variant);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .guide-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .guide-section li {
+            color: var(--on-surface-variant);
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #263238;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #B0BEC5;
+            line-height: 1.5;
         }
 
         /* Scrollbar */
@@ -357,6 +588,20 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-btn {
+                flex: 1;
+            }
+
             .container {
                 flex-direction: column;
             }
@@ -370,17 +615,36 @@
             .content {
                 padding: 1rem;
             }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-section {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>HOS API Documentation</h1>
-        <p>Complete reference for HTML OS JavaScript API</p>
+        <div class="header-content">
+            <h1>HOS Documentation Portal</h1>
+            <p>Complete guide and API reference for HTML Operating System</p>
+        </div>
+        <nav class="header-nav">
+            <button class="nav-btn active" data-page="home">Home</button>
+            <button class="nav-btn" data-page="guide">Getting Started</button>
+            <button class="nav-btn" data-page="api">API Docs</button>
+        </nav>
     </header>
 
     <div class="container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="search-box">
                 <input type="text" class="search-input" id="searchInput" placeholder="Search APIs...">
             </div>
@@ -389,12 +653,179 @@
         </aside>
 
         <main class="content">
-            <div class="welcome-screen" id="welcomeScreen">
-                <h2>Welcome to HOS API Documentation</h2>
-                <p>Select an API class from the sidebar to view detailed documentation</p>
+            <!-- Home Page -->
+            <div class="home-page" id="homePage">
+                <div class="hero-section">
+                    <h1>Welcome to HOS</h1>
+                    <p>HTML Operating System (HOS) is an OS simulator for Android, that allows to create applications on HTML.</p>
+                </div>
+
+                <div class="screenshot-section">
+                    <h2>HOS in Action</h2>
+                    <img src="hscreenshot.jpg" 
+                        alt="HOS Screenshot" 
+                        style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                </div>
+
+                <div class="features-section">
+                    <h2>Key Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>📁 File System Access</h3>
+                            <p>Read, write, and manage files with comprehensive file system APIs</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🔒 Permission System</h3>
+                            <p>Secure runtime permission management for sensitive operations</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>💾 Preferences API</h3>
+                            <p>Store and retrieve app settings with key-value storage</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🔔 Notifications</h3>
+                            <p>Send system notifications to keep users informed</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>⚙️ System Settings</h3>
+                            <p>Access and modify system configuration programmatically</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🎨 Multi-Screen Apps</h3>
+                            <p>Navigate between screens seamlessly within your app</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-section">
+                    <div class="action-card" data-navigate="guide">
+                        <h3>📚 How to Create Apps?</h3>
+                        <p>Learn how to create, compile, and install your first HOS application with step-by-step instructions.</p>
+                        <span class="action-btn">Get Started →</span>
+                    </div>
+                    <div class="action-card" data-navigate="api">
+                        <h3>📖 HOS API Documentation</h3>
+                        <p>Explore the complete API reference with detailed examples and usage guidelines for all available APIs.</p>
+                        <span class="action-btn">View API Docs →</span>
+                    </div>
+                </div>
             </div>
 
-            <div id="apiDocsContainer"></div>
+            <!-- Getting Started Guide -->
+            <div class="guide-page" id="guidePage">
+                <div class="guide-section">
+                    <h2>Getting Started with HOS Development</h2>
+                    
+                    <h3>1. Project Structure</h3>
+                    <p>Every HOS application follows this directory structure:</p>
+                    <div class="code-block">
+<pre>your-app/
+├── manifest.json       # App metadata and configuration
+├── assets/
+│   └── icon.png       # App icon (required)
+├── design/
+│   ├── main.html      # Screen layouts
+│   └── settings.html
+└── code/
+    ├── main.js        # Screen logic
+    └── settings.js</pre>
+                    </div>
+                    <p>📝Note: Application icon should be located at assets directory with name "icon.&lt;format&gt;". Recommended icon size - 100x100 dp.</p>
+
+                    <h3>2. Creating manifest.json</h3>
+                    <p>The manifest defines your app's metadata:</p>
+                    <div class="code-block">
+<pre>{
+  "name": "My App", //Name must be maximum 30 characters long.
+  "pkg": "com.example.myapp", //Package name must be maximum 25 characters long.
+  "version": "1", //Must be integer.
+  "launcherScreen": "main" //Defines, which screen will be launched first.
+}</pre>
+                    </div>
+
+                    <h3>3. Creating HTML Screens</h3>
+                    <p>HTML files must contain the replacement tag where JavaScript will be injected:</p>
+                    <div class="code-block">
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My App&lt;/title&gt;
+    &lt;style&gt;
+        /* Your styles here */
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello HOS!&lt;/h1&gt;
+    &lt;button id="myBtn"&gt;Click Me&lt;/button&gt;
+    
+    &lt;script&gt;
+        H-R-T-HOS-REPLACEMENT
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                    </div>
+
+                    <h3>4. Writing JavaScript Logic</h3>
+                    <p>JavaScript files contain your app's logic and API calls:</p>
+                    <div class="code-block">
+<pre>// main.js
+document.getElementById('myBtn').onclick = function() {
+    RuntimeApi.maketoast('Button clicked!');
+    
+    // Save preference
+    PreferenceApi.setpkey('lastClick', new Date().toString());
+};
+
+// Read file example
+if (PermissionApi.checkSelfPermission('READ_STORAGE')) {
+    const content = FileApi.readfile('/storage/test.txt');
+    console.log(content);
+} else {
+    PermissionApi.requestPermission('READ_STORAGE');
+}</pre>
+                    
+                    </div>
+                    <p>❗Remember: "Screens" in HOS is analogue of Android activity system, every screen is a pair of 1 HTML and 1 JavaScript file with the same name.</p>
+                    <h3>5. Compiling Your App</h3>
+                    <p>Use HOS Shell to compile your project into an HPKG package:</p>
+                    <div class="code-block">
+<pre>compilehpkg /storage/emulated/0/projects/your-app</pre>
+                    </div>
+                    <p>This creates <code>&lt;pkg&gt;.hpkg</code> in the project directory.</p>
+
+                    <h3>6. Installing the Package</h3>
+                    <p>Install the compiled package using HOS Shell:</p>
+                    <div class="code-block">
+<pre>installhpkg /storage/emulated/0/projects/your-app/&lt;pkg&gt;.hpkg</pre>
+                    </div>
+                    <p>Your app will now appear in the app list and can be launched!</p>
+
+                    <h3>7. Common Shell Commands</h3>
+                    <ul>
+                        <li><code>exec [package]</code> - Launch an application</li>
+                        <li><code>read [path]</code> - Read file contents</li>
+                        <li><code>write [path] [text]</code> - Write to a file</li>
+                        <li><code>mkdir [path]</code> - Create directory</li>
+                        <li><code>plist [path]</code> - List directory contents</li>
+                        <li><code>remove [path]</code> - Delete file or directory</li>
+                    </ul>
+
+                    <h3>Tips & Best Practices</h3>
+                    <ul>
+                        <li>Always request permissions before using protected APIs</li>
+                        <li>Check the system.debug.enableJavaScriptLogs setting, to prevent your app logs can be readed.</li>
+                        <li>Use PreferenceApi for app settings and user data</li>
+                        <li>Keep assets in the assets/ folder for easy access</li>
+                        <li>Test your app thoroughly before distribution</li>
+                        <li>Use ScreenApi to navigate between multiple screens</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- API Documentation Page -->
+            <div class="api-doc-page" id="apiDocPage">
+                <div id="apiDocsContainer"></div>
+            </div>
         </main>
     </div>
 

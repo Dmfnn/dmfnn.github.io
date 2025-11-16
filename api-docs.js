@@ -1,10 +1,20 @@
+// API Documentation Renderer with Navigation
+// This script handles the rendering and interactivity of the documentation portal
+
 class ApiDocsRenderer {
     constructor() {
         this.apiList = document.getElementById('apiList');
         this.apiDocsContainer = document.getElementById('apiDocsContainer');
-        this.welcomeScreen = document.getElementById('welcomeScreen');
         this.searchInput = document.getElementById('searchInput');
+        this.sidebar = document.getElementById('sidebar');
+        
+        // Pages
+        this.homePage = document.getElementById('homePage');
+        this.guidePage = document.getElementById('guidePage');
+        this.apiDocPage = document.getElementById('apiDocPage');
+        
         this.currentApi = null;
+        this.currentPage = 'home';
         
         this.init();
     }
@@ -12,7 +22,92 @@ class ApiDocsRenderer {
     init() {
         this.renderApiList();
         this.setupSearch();
+        this.setupNavigation();
         this.setupUrlRouting();
+        this.setupActionCards();
+    }
+    
+    // Setup navigation buttons
+    setupNavigation() {
+        const navButtons = document.querySelectorAll('.nav-btn');
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = btn.getAttribute('data-page');
+                this.navigateToPage(page);
+                
+                // Update active state
+                navButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    }
+    
+    // Setup action cards on home page
+    setupActionCards() {
+        const actionCards = document.querySelectorAll('.action-card');
+        actionCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const page = card.getAttribute('data-navigate');
+                if (page) {
+                    this.navigateToPage(page);
+                    
+                    // Update nav buttons
+                    const navButtons = document.querySelectorAll('.nav-btn');
+                    navButtons.forEach(btn => {
+                        if (btn.getAttribute('data-page') === page) {
+                            navButtons.forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+    // Navigate to different pages
+    navigateToPage(page) {
+        this.currentPage = page;
+        
+        // Hide ALL pages completely
+        this.homePage.style.display = 'none';
+        this.guidePage.style.display = 'none';
+        this.apiDocPage.style.display = 'none';
+        
+        // Show sidebar only for API page
+        if (page === 'api') {
+            this.sidebar.classList.add('visible');
+        } else {
+            this.sidebar.classList.remove('visible');
+        }
+        
+        // Show selected page
+        switch(page) {
+            case 'home':
+                this.homePage.style.display = 'block';
+                break;
+            case 'guide':
+                this.guidePage.style.display = 'block';
+                break;
+            case 'api':
+                this.apiDocPage.style.display = 'block';
+                // If no API is selected, show a welcome message
+                if (!this.currentApi) {
+                    this.apiDocsContainer.innerHTML = `
+                        <div style="text-align: center; padding: 4rem 2rem;">
+                            <h2 style="font-size: 2rem; color: var(--on-surface); margin-bottom: 1rem;">
+                                Select an API Class
+                            </h2>
+                            <p style="color: var(--on-surface-variant); font-size: 1.1rem;">
+                                Choose an API class from the sidebar to view detailed documentation
+                            </p>
+                        </div>
+                    `;
+                }
+                break;
+        }
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
     }
     
     // Render the sidebar API list
@@ -48,6 +143,7 @@ class ApiDocsRenderer {
         }
     }
     
+    // Setup search functionality
     setupSearch() {
         this.searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
@@ -61,14 +157,33 @@ class ApiDocsRenderer {
         if (hash) {
             const api = API_DOCS.find(a => a.name === hash);
             if (api) {
-                this.showApiDoc(hash);
+                this.navigateToPage('api');
+                // Update nav button
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-page') === 'api') {
+                        btn.classList.add('active');
+                    }
+                });
+                setTimeout(() => {
+                    this.showApiDoc(hash);
+                }, 100);
             }
         }
         
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.substring(1);
             if (hash) {
-                this.showApiDoc(hash);
+                this.navigateToPage('api');
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-page') === 'api') {
+                        btn.classList.add('active');
+                    }
+                });
+                setTimeout(() => {
+                    this.showApiDoc(hash);
+                }, 100);
             }
         });
     }
@@ -84,7 +199,11 @@ class ApiDocsRenderer {
         if (!api) return;
         
         this.currentApi = apiName;
-        this.welcomeScreen.style.display = 'none';
+        
+        // Make sure we're on the API page
+        if (this.currentPage !== 'api') {
+            this.navigateToPage('api');
+        }
         
         // Update active state in sidebar
         document.querySelectorAll('.api-link').forEach(link => {
@@ -247,7 +366,7 @@ class ApiDocsRenderer {
     }
 }
 
-
+// Initialize the documentation renderer when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new ApiDocsRenderer();
 });
