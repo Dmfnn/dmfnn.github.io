@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOS API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1976D2;
+            --primary-dark: #1565C0;
+            --primary-light: #BBDEFB;
+            --surface: #FFFFFF;
+            --surface-variant: #F5F5F5;
+            --on-surface: #1C1B1F;
+            --on-surface-variant: #49454F;
+            --outline: #79747E;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --success: #2E7D32;
+            --warning: #F57C00;
+            --error: #C62828;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--surface-variant);
+            color: var(--on-surface);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 4px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin-top: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--surface);
+            padding: 1.5rem;
+            box-shadow: 2px 0 4px var(--shadow);
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .api-list {
+            list-style: none;
+        }
+
+        .api-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .api-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--on-surface);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .api-link:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .api-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .welcome-screen h2 {
+            font-size: 2rem;
+            color: var(--on-surface);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-screen p {
+            color: var(--on-surface-variant);
+            font-size: 1.1rem;
+        }
+
+        /* API Documentation Page */
+        .api-doc {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .api-doc.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .api-header {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .api-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .api-header .description {
+            color: var(--on-surface-variant);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .api-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--on-surface-variant);
+        }
+
+        .meta-label {
+            font-weight: 600;
+        }
+
+        /* Methods Section */
+        .methods-section {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--on-surface);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--outline);
+        }
+
+        .method-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .method-signature {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            word-break: break-all;
+        }
+
+        .method-description {
+            color: var(--on-surface-variant);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .parameters {
+            margin-top: 1rem;
+        }
+
+        .parameters h4,
+        .returns h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--on-surface);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .param-item,
+        .return-item {
+            background: var(--surface-variant);
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .param-name,
+        .return-type {
+            font-family: 'Courier New', monospace;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .param-type {
+            font-family: 'Courier New', monospace;
+            color: var(--on-surface-variant);
+            font-size: 0.9rem;
+        }
+
+        .param-desc,
+        .return-desc {
+            color: var(--on-surface-variant);
+            margin-top: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .returns {
+            margin-top: 1rem;
+        }
+
+        .example {
+            margin-top: 1rem;
+            background: #263238;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .example h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #B0BEC5;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .example pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #B0BEC5;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-permission {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge-async {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Search */
+        .search-box {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-variant);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--outline);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--on-surface-variant);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>HOS API Documentation</h1>
+        <p>Complete reference for HTML OS JavaScript API</p>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search APIs...">
+            </div>
+            <h2>API Classes</h2>
+            <ul class="api-list" id="apiList"></ul>
+        </aside>
+
+        <main class="content">
+            <div class="welcome-screen" id="welcomeScreen">
+                <h2>Welcome to HOS API Documentation</h2>
+                <p>Select an API class from the sidebar to view detailed documentation</p>
+            </div>
+
+            <div id="apiDocsContainer"></div>
+        </main>
+    </div>
+
+    <script src="api-data.js"></script>
+    <script src="api-docs.js"></script>
+</body>
+</html>
