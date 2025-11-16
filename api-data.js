@@ -1,11 +1,8 @@
-// API Documentation Data
-// Добавляйте новые API классы в этот массив
-
 const API_DOCS = [
     {
         name: "FileApi",
         interface: "FileApi",
-        description: "Provides file system operations for reading, writing, and managing files in allowed directories.",
+        description: "Provides file system operations for reading, writing, and managing files in allowed directories inside HOS filesystem.",
         package: "com.dmfnn.htmlos.sysapi",
         methods: [
             {
@@ -57,18 +54,18 @@ if (base64 !== "FAIL") {
             },
             {
                 name: "writefile",
-                signature: "String writefile(Object text, String path)",
+                signature: "String writefile(String text, String path)",
                 description: "Writes text content to a file at the specified path. File must already exist.",
                 parameters: [
                     {
                         name: "text",
-                        type: "Object",
-                        description: "Content to write (will be converted to string)"
+                        type: "String",
+                        description: "Content to write"
                     },
                     {
                         name: "path",
                         type: "String",
-                        description: "Absolute path to the file"
+                        description: "Path to the file"
                     }
                 ],
                 returns: {
