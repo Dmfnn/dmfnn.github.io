@@ -2,6 +2,11 @@ Docs.page({
   project: 'bellyos', section: 'start', id: 'overview', order: 1, title: 'Overview',
   summary: 'What BellyOS is made of and what an application can rely on.',
   blocks: [
+    D.custom('screens', { items: [
+      { src: 'assets/img/bellyos-settings.png', alt: 'BellyOS desktop with the Settings and Calculator windows open', caption: 'The BellyOS desktop: windows, taskbar and the Settings application. Captured from the running system.' },
+      { src: 'assets/img/bellyos-launcher.png', alt: 'BellyOS application launcher', caption: 'The launcher.' },
+      { src: 'assets/img/bellyos-calculator.png', alt: 'Calculator application', caption: 'An application window.' }
+    ] }),
     D.lead('BellyOS is a compact operating system written in HASM. It has a boot chain, a package manager, a settings service, a window manager and a framework library that applications link against.'),
     D.cards([
       { icon: 'layers', title: 'Declarative interface', text: 'Screens are XML files in `res/` and travel inside the signed package.', href: 'doc:xml-layout' },

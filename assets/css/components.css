@@ -133,3 +133,12 @@ td p { margin: 0; }
 @media (max-width: 900px) { .project-cards { grid-template-columns: minmax(0, 1fr); } .project-card { min-height: 0; } }
 .doc-body .api-title { margin: 6px 0 4px; }
 .api-summary tbody tr:first-child td { border-top: 0; }
+
+/* screenshots */
+.shots { margin: 1.6em 0; display: grid; gap: 16px; }
+.shot { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.shot-frame { padding: 6px; border-radius: var(--r-lg); background: var(--glass-fill); box-shadow: var(--glass-shadow), inset 0 0 0 1px var(--border, rgba(255,255,255,.14)); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.shot-frame img { display: block; width: 100%; height: auto; border-radius: calc(var(--r-lg) - 6px); }
+.shot figcaption { font-size: .86rem; color: var(--text-dim, var(--muted, inherit)); text-align: center; opacity: .85; }
+.shot-row { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 560px) { .shot-row { grid-template-columns: minmax(0, 1fr); } .shot-frame { border-radius: var(--r-md); } .shot-frame img { border-radius: calc(var(--r-md) - 6px); } }

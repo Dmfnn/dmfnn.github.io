@@ -205,5 +205,19 @@
     }
   });
 
+  // ── screenshots ─────────────────────────────────────────────────────────────
+  // D.custom('screens', { items: [{ src, alt, caption }] }): the first image is shown large, the rest in a row below.
+  Render.register('screens', {
+    render(b, r) {
+      const E = Inline.escape;
+      const fig = (it, cls) => '<figure class="shot ' + cls + '"><div class="shot-frame"><img src="' + E(it.src) + '" alt="' + E(it.alt || '') +
+        '" loading="lazy" decoding="async"></div>' + (it.caption ? '<figcaption>' + r.inline(it.caption) + '</figcaption>' : '') + '</figure>';
+      const [first, ...rest] = b.items;
+      return '<div class="shots">' + fig(first, 'shot-main') +
+        (rest.length ? '<div class="shot-row" style="--n:' + rest.length + '">' + rest.map(i => fig(i, 'shot-sub')).join('') + '</div>' : '') + '</div>';
+    },
+    text: (b) => b.items.map(i => T(i.caption || i.alt || '')).join(' ')
+  });
+
   global.Render = Render;
 })(window);
