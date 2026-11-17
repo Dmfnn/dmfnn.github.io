@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>HASM · BellyOS · HEMU — Documentation</title>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/glass.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/code.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+<!-- Refraction filter used by the liquid-glass surfaces (applied only where the browser supports it). -->
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="liquid" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise"/>
+      <feGaussianBlur in="noise" stdDeviation="3" result="soft"/>
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+<div class="backdrop" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i></div>
+<div id="app"></div>
+<noscript><p style="padding:2rem">This documentation needs JavaScript.</p></noscript>
+
+<!-- core -->
+<script src="assets/js/core/registry.js"></script>
+<script src="assets/js/core/icons.js"></script>
+<script src="assets/js/core/highlight.js"></script>
+<script src="assets/js/languages/hasm.js"></script>
+<script src="assets/js/languages/web.js"></script>
+<script src="assets/js/languages/native.js"></script>
+<script src="assets/js/core/inline.js"></script>
+<script src="assets/js/core/dsl.js"></script>
+<script src="assets/js/core/render.js"></script>
+<script src="assets/js/core/search.js"></script>
+<script src="assets/js/core/router.js"></script>
+<script src="assets/js/core/theme.js"></script>
+<script src="assets/js/core/motion.js"></script>
+<script src="assets/js/core/shell.js"></script>
+<!-- content: the list of files is in content/manifest.js -->
+<script src="content/manifest.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

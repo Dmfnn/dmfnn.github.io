@@ -1,0 +1,43 @@
+/*
+ * Liquid glass: a translucent gradient fill, a backdrop blur with saturation, a gradient hairline edge, a specular
+ * glint in the corner and an inner light. `.refract` additionally bends what is behind the surface (SVG displacement),
+ * which only Chromium does for backdrop-filter, so it is enabled by the `refract-ok` class and degrades to plain blur.
+ */
+.glass {
+  position: relative; isolation: isolate;
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-glint), inset 0 -1px 0 rgba(255,255,255,.05), inset 0 0 28px rgba(255,255,255,.04);
+  border-radius: var(--r-lg);
+}
+.glass::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 1;
+  background: var(--glass-edge);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.glass::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 0;
+  background: radial-gradient(130% 90% at 0% 0%, var(--glass-glint), transparent 52%), radial-gradient(90% 70% at 100% 100%, color-mix(in srgb, var(--b) 12%, transparent), transparent 60%);
+  opacity: .55;
+}
+.glass > * { position: relative; z-index: 2; }
+
+html.refract-ok .refract { -webkit-backdrop-filter: blur(10px) url(#liquid) saturate(190%); backdrop-filter: blur(10px) url(#liquid) saturate(190%); }
+
+/* a light that follows the pointer */
+.card-hover { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.card-hover::after { transition: opacity .3s; }
+.card-hover > * { position: relative; z-index: 3; }
+.card-hover:hover { transform: translateY(-3px); }
+@media (hover: hover) {
+  .card-hover:hover::after {
+    opacity: 1;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--b) 30%, rgba(255,255,255,.45)), transparent 60%), radial-gradient(130% 90% at 0% 0%, var(--glass-glint), transparent 52%);
+  }
+}
+
+/* without backdrop-filter the fill must carry the surface on its own */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: var(--glass-fill-strong); }
+}

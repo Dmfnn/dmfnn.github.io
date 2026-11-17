@@ -1,0 +1,24 @@
+.code { margin: 1.3em 0; border-radius: var(--r-md); overflow: hidden; background: var(--code-fill); box-shadow: 0 14px 34px -18px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.18); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.code figcaption { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px 6px 16px; background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.03)); border-bottom: 1px solid rgba(255,255,255,.08); }
+.code-title { font: 600 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: rgba(214,222,250,.62); }
+.copy { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 9px; font-size: .78rem; color: rgba(214,222,250,.75); transition: background .2s, color .2s; }
+.copy:hover { background: rgba(255,255,255,.12); color: #fff; }
+.copy.done { color: #86efac; }
+.code pre { margin: 0; padding: 14px 18px 16px; overflow-x: auto; font: .88rem/1.62 var(--mono); tab-size: 4; color: #e6eaff; }
+.code pre code { background: none; box-shadow: none; padding: 0; font: inherit; overflow-wrap: normal; white-space: pre; }
+.sig code, .sig { color: var(--text); }
+.tok-comment { color: var(--tok-comment); font-style: italic; }
+.tok-string { color: var(--tok-string); }
+.tok-keyword { color: var(--tok-keyword); }
+.tok-type { color: var(--tok-type); }
+.tok-number { color: var(--tok-number); }
+.tok-fn { color: var(--tok-fn); }
+.tok-punct { color: var(--tok-punct); }
+.tok-attr { color: var(--tok-attr); }
+.tok-tag { color: var(--tok-tag); }
+.tok-const { color: var(--tok-const); }
+.tok-meta { color: var(--tok-meta); }
+
+/* signatures sit on light glass in the light theme: darker token colors there */
+:root[data-theme="light"] .sig [class^="tok-"], :root[data-theme="light"] .api-summary [class^="tok-"] { filter: brightness(.62) saturate(1.5); }
+@media (prefers-color-scheme: light) { :root[data-theme="auto"] .sig [class^="tok-"] { filter: brightness(.62) saturate(1.5); } }

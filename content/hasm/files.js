@@ -1,0 +1,1 @@
+Docs.files.push('hasm/start.js', 'hasm/lang-basics.js', 'hasm/lang-structure.js', 'hasm/build.js', 'hasm/stdlib-core.js', 'hasm/stdlib-structures.js', 'hasm/stdlib-system.js', 'hasm/host.js', 'hasm/internals.js');

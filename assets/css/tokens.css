@@ -1,0 +1,83 @@
+/*
+ * Design tokens. Surfaces, accents and borders are gradients; only text and syntax colors are flat (they have to be
+ * readable). The accent trio --a/--b/--c is replaced per project by the shell (see Docs.project({ accent })).
+ */
+:root {
+  --a: #8b5cf6; --b: #22d3ee; --c: #e879f9;
+  --accent-grad: linear-gradient(120deg, var(--a), var(--b));
+  --accent-grad-3: linear-gradient(120deg, var(--a), var(--b) 55%, var(--c));
+  --accent-soft: linear-gradient(120deg, color-mix(in srgb, var(--a) 24%, transparent), color-mix(in srgb, var(--b) 18%, transparent));
+
+  --r-xl: 28px; --r-lg: 22px; --r-md: 16px; --r-sm: 11px;
+  --topbar-h: 60px; --sidebar-w: 290px; --toc-w: 216px; --maxw: 1500px;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* dark (default) */
+:root, :root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: linear-gradient(160deg, #060818 0%, #0b1130 46%, #140a29 100%);
+  --text: rgba(246, 248, 255, .95);
+  --text-dim: rgba(214, 222, 250, .72);
+  --text-faint: rgba(190, 200, 235, .5);
+  --glass-fill: linear-gradient(150deg, rgba(255,255,255,.15) 0%, rgba(255,255,255,.055) 55%, rgba(255,255,255,.09) 100%);
+  --glass-fill-strong: linear-gradient(150deg, rgba(22,28,62,.62) 0%, rgba(14,18,44,.55) 60%, rgba(24,18,52,.6) 100%);
+  --glass-edge: linear-gradient(145deg, rgba(255,255,255,.62), rgba(255,255,255,.08) 34%, rgba(255,255,255,.03) 62%, rgba(255,255,255,.34));
+  --glass-shadow: 0 18px 50px -18px rgba(0,0,0,.65), 0 2px 10px rgba(0,0,0,.25);
+  --glass-glint: rgba(255,255,255,.22);
+  --hover-fill: linear-gradient(150deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+  --code-fill: linear-gradient(160deg, rgba(5,7,22,.7), rgba(12,10,34,.62));
+  --inline-code: linear-gradient(160deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  --table-head: linear-gradient(120deg, rgba(255,255,255,.11), rgba(255,255,255,.04));
+  --row-line: linear-gradient(90deg, rgba(255,255,255,.14), rgba(255,255,255,.03));
+  --orb-alpha: .5;
+  --tok-comment: #7f8bb3; --tok-string: #8fe3b2; --tok-keyword: #c4a4ff; --tok-type: #7fd8ff;
+  --tok-number: #ffc78a; --tok-fn: #8db4ff; --tok-punct: #9fa9d0; --tok-attr: #ffd48f; --tok-tag: #ff8fb0;
+  --tok-const: #ffa7d1; --tok-meta: #f6c177;
+}
+
+/* light */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page-bg: linear-gradient(160deg, #eef3ff 0%, #f6ecff 50%, #e7fbff 100%);
+  --text: rgba(18, 22, 48, .94);
+  --text-dim: rgba(40, 48, 88, .72);
+  --text-faint: rgba(60, 70, 110, .5);
+  --glass-fill: linear-gradient(150deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.4) 55%, rgba(255,255,255,.55) 100%);
+  --glass-fill-strong: linear-gradient(150deg, rgba(255,255,255,.82), rgba(255,255,255,.62) 60%, rgba(250,244,255,.74));
+  --glass-edge: linear-gradient(145deg, rgba(255,255,255,.95), rgba(255,255,255,.35) 36%, rgba(120,130,190,.14) 62%, rgba(255,255,255,.8));
+  --glass-shadow: 0 18px 44px -20px rgba(60,70,140,.35), 0 2px 8px rgba(60,70,140,.1);
+  --glass-glint: rgba(255,255,255,.9);
+  --hover-fill: linear-gradient(150deg, rgba(255,255,255,.8), rgba(255,255,255,.45));
+  --code-fill: linear-gradient(160deg, rgba(25,30,70,.9), rgba(40,26,80,.86));
+  --inline-code: linear-gradient(160deg, rgba(90,100,190,.16), rgba(120,90,200,.1));
+  --table-head: linear-gradient(120deg, rgba(90,100,190,.14), rgba(120,90,200,.07));
+  --row-line: linear-gradient(90deg, rgba(60,70,140,.2), rgba(60,70,140,.04));
+  --orb-alpha: .42;
+  --tok-comment: #8e98c4; --tok-string: #8fe3b2; --tok-keyword: #c9adff; --tok-type: #84dcff;
+  --tok-number: #ffc78a; --tok-fn: #94b8ff; --tok-punct: #aab3d6; --tok-attr: #ffd48f; --tok-tag: #ff93b5;
+  --tok-const: #ffadd4; --tok-meta: #f6c177;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="auto"] {
+    color-scheme: light;
+    --page-bg: linear-gradient(160deg, #eef3ff 0%, #f6ecff 50%, #e7fbff 100%);
+    --text: rgba(18, 22, 48, .94);
+    --text-dim: rgba(40, 48, 88, .72);
+    --text-faint: rgba(60, 70, 110, .5);
+    --glass-fill: linear-gradient(150deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.4) 55%, rgba(255,255,255,.55) 100%);
+    --glass-fill-strong: linear-gradient(150deg, rgba(255,255,255,.82), rgba(255,255,255,.62) 60%, rgba(250,244,255,.74));
+    --glass-edge: linear-gradient(145deg, rgba(255,255,255,.95), rgba(255,255,255,.35) 36%, rgba(120,130,190,.14) 62%, rgba(255,255,255,.8));
+    --glass-shadow: 0 18px 44px -20px rgba(60,70,140,.35), 0 2px 8px rgba(60,70,140,.1);
+    --glass-glint: rgba(255,255,255,.9);
+    --hover-fill: linear-gradient(150deg, rgba(255,255,255,.8), rgba(255,255,255,.45));
+    --code-fill: linear-gradient(160deg, rgba(25,30,70,.9), rgba(40,26,80,.86));
+    --inline-code: linear-gradient(160deg, rgba(90,100,190,.16), rgba(120,90,200,.1));
+    --table-head: linear-gradient(120deg, rgba(90,100,190,.14), rgba(120,90,200,.07));
+    --row-line: linear-gradient(90deg, rgba(60,70,140,.2), rgba(60,70,140,.04));
+    --orb-alpha: .42;
+  }
+}
